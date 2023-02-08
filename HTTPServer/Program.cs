@@ -1,6 +1,7 @@
 ﻿using HTTPServer.src.Server;
 using HTTPServer.src.Server.Bases;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace HTTPServer
@@ -8,11 +9,14 @@ namespace HTTPServer
     public class Program
     {
 
-        static async Task Main(string[] args)
+        static void Main(string[] args)
         {
             IHttpServer httpServer = new HttpListenerServer("127.0.0.1");
             httpServer.SetEndpoints("kek/", () => Console.WriteLine("kek"));
-                await httpServer.Listen();
+            httpServer.SetEndpoints("kek2/", () => Console.WriteLine("kek2"));
+
+            httpServer.Listen();
+            #region example
             //httpServer.SetEndpoints("kek/", () => Console.WriteLine("kek"));
             //        HttpListener server = new HttpListener();
             //        // установка адресов прослушки
@@ -46,6 +50,7 @@ namespace HTTPServer
             //        Console.WriteLine("Запрос обработан");
 
             //        server.Stop();
+            #endregion
         }
     }
 }

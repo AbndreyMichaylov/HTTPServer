@@ -3,7 +3,7 @@ namespace HTTPServer.src.Server.Bases
 {
     public interface IHttpServer
     {
-        Task Listen();
+        void Listen();
         void SetEndpoints(string endPoint, Action handler);
 
     }
