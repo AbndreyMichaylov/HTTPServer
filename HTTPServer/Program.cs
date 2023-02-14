@@ -19,7 +19,16 @@ namespace HTTPServer
                                                   .CreateLogger();
 
             IHttpServer httpServer = new HttpListenerServer("127.0.0.1");
-            httpServer.SetEndpoints("kek/", (ctx) => new ResponseProvider(ctx).SendTextResponse("OK"));
+            httpServer.SetEndpoints("kek/", (ctx) => new ResponseProvider(ctx).SendTextResponse(@"
+                <html>
+                    <head>
+                    </head>
+                    <body>
+                        <h1> hythty
+                        </h1>
+                    </body>
+                </html>
+"));
             httpServer.SetEndpoints("kek2/", (ctx) => Console.WriteLine($"Invoked from {ctx.Request.Url}"));
 
             

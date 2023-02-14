@@ -26,8 +26,6 @@ namespace HTTPServer.src.Response
             // отправляем данные
             output.Write(buffer);
             output.Flush();
-
-            Console.WriteLine("Запрос обработан");
         }
     }
 }
