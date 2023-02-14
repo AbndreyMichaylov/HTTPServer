@@ -6,6 +6,7 @@ using System.Text;
 
 using Serilog;
 using HTTPServer.src.Response;
+using HTTPServer.src.Examples.ExampleProject1;
 
 namespace HTTPServer
 {
@@ -17,58 +18,7 @@ namespace HTTPServer
             Log.Logger = new LoggerConfiguration().MinimumLevel.Information()
                                                   .WriteTo.Console()
                                                   .CreateLogger();
-
-            IHttpServer httpServer = new HttpListenerServer("127.0.0.1");
-            httpServer.SetEndpoints("kek/", (ctx) => new ResponseProvider(ctx).SendTextResponse(@"
-                <html>
-                    <head>
-                    </head>
-                    <body>
-                        <h1> hythty
-                        </h1>
-                    </body>
-                </html>
-"));
-            httpServer.SetEndpoints("kek2/", (ctx) => Console.WriteLine($"Invoked from {ctx.Request.Url}"));
-
-            
-
-            httpServer.Listen();
-            #region example
-            //httpServer.SetEndpoints("kek/", () => Console.WriteLine("kek"));
-            //        HttpListener server = new HttpListener();
-            //        // установка адресов прослушки
-            //        server.Prefixes.Add("http://127.0.0.1:8888/connection/");
-            //        server.Start(); // начинаем прослушивать входящие подключения
-
-            //        // получаем контекст
-            //        var context = await server.GetContextAsync();
-
-            //        var response = context.Response;
-            //        // отправляемый в ответ код htmlвозвращает
-            //        string responseText =
-            //            @"<!DOCTYPE html>
-            //<html>
-            //    <head>
-            //        <meta charset='utf8'>
-            //        <title>METANIT.COM</title>
-            //    </head>
-            //    <body>
-            //        <h2>Hello METANIT.COM</h2>
-            //    </body>
-            //</html>";
-            //        byte[] buffer = Encoding.UTF8.GetBytes(responseText);
-            //        // получаем поток ответа и пишем в него ответ
-            //        response.ContentLength64 = buffer.Length;
-            //        using Stream output = response.OutputStream;
-            //        // отправляем данные
-            //        await output.WriteAsync(buffer);
-            //        await output.FlushAsync();
-
-            //        Console.WriteLine("Запрос обработан");
-
-            //        server.Stop();
-            #endregion
+            new ExampleServer().Run();
         }
     }
 }

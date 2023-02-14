@@ -10,13 +10,13 @@ namespace HTTPServer.src.Server
     {
         private string _ip;
 
-        private Dictionary<string, Action<HttpListenerContext?>> _endPoints;
+        private Dictionary<string, Action<HttpListenerContext>> _endPoints;
         private HttpListener _httpListener;
         public HttpListenerServer(string ip) 
         {
             _ip = $"http://{ip}:8888/";
             _httpListener = new HttpListener();
-            _endPoints = new Dictionary<string, Action<HttpListenerContext?>>();
+            _endPoints = new Dictionary<string, Action<HttpListenerContext>>();
             _httpListener.Start();
             Log.Information($"Server started in {_ip}");
         }

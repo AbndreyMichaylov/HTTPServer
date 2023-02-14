@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Serilog;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace HTTPServer.src.Response
 {
@@ -18,14 +15,39 @@ namespace HTTPServer.src.Response
 
         public void SendTextResponse(string text)         
         {
-            var response = _context.Response;
-            byte[] buffer = Encoding.UTF8.GetBytes(text);
-            // получаем поток ответа и пишем в него ответ
-            response.ContentLength64 = buffer.Length;
-            using Stream output = response.OutputStream;
-            // отправляем данные
-            output.Write(buffer);
-            output.Flush();
+            try 
+            {
+                var response = _context.Response;
+                byte[] buffer = Encoding.UTF8.GetBytes(text);
+                response.ContentLength64 = buffer.Length;
+                using Stream output = response.OutputStream;
+                output.Write(buffer);
+                output.Flush();
+                Log.Information($"Sended response to {_context.Request.Url}");
+            }
+            catch(Exception e)
+            {
+                Log.Error(e.Message);
+            }
+
+        }
+
+        public void SendHtmlPage() 
+        {
+            try
+            {
+                var response = _context.Response;
+                byte[] buffer = Encoding.UTF8.GetBytes(File.ReadAllText(@"C:\\Users\\79775\\source\\repos\\HTTPServer\\HTTPServer\\src\\Examples\\ExampleProject1\\Pages\\Index.html"));
+                response.ContentLength64 = buffer.Length;
+                using Stream output = response.OutputStream;
+                output.Write(buffer);
+                output.Flush();
+                Log.Information($"Sended response to {_context.Request.Url}");
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.Message);
+            }
         }
     }
 }
