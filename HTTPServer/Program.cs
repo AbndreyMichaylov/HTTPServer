@@ -4,6 +4,9 @@ using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
 
+using Serilog;
+using HTTPServer.src.Response;
+
 namespace HTTPServer
 {
     public class Program
@@ -11,9 +14,15 @@ namespace HTTPServer
 
         static void Main(string[] args)
         {
+            Log.Logger = new LoggerConfiguration().MinimumLevel.Information()
+                                                  .WriteTo.Console()
+                                                  .CreateLogger();
+
             IHttpServer httpServer = new HttpListenerServer("127.0.0.1");
-            httpServer.SetEndpoints("kek/", () => Console.WriteLine("kek"));
-            httpServer.SetEndpoints("kek2/", () => Console.WriteLine("kek2"));
+            httpServer.SetEndpoints("kek/", (ctx) => new ResponseProvider(ctx).SendTextResponse("OK"));
+            httpServer.SetEndpoints("kek2/", (ctx) => Console.WriteLine($"Invoked from {ctx.Request.Url}"));
+
+            
 
             httpServer.Listen();
             #region example
